@@ -1,0 +1,344 @@
+{
+	"info": {
+		"_postman_id": "d7c5774c-67f2-47e1-a95b-98e865dc2865",
+		"name": "KONNEKTU api testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18994644"
+	},
+	"item": [
+		{
+			"name": "User registration (positive)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// pm.collectionVariables.set(\"validName\", pm.variables.get('validName'));\r",
+							"// console.log(pm.collectionVariables.get('validName'))"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200 OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check if 'UserId' exists and has a non-null value\", function () {\r",
+							"    const responseBody = pm.response.json();\r",
+							"    pm.expect(responseBody).to.have.property(\"UserId\").and.not.equal(null);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check if 'Login' exists and has a non-null value\", function () {\r",
+							"    const responseBody = pm.response.json();\r",
+							"    pm.expect(responseBody).to.have.property(\"Login\").and.not.equal(null);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Name\": \"{{valid_name}}\",\r\n    \"Age\": \"{{valid_age}}\",\r\n    \"Identifiers\": [\r\n        {\r\n            \"Type\": 1,\r\n            \"Value\": \"{{valid_mail}}\"\r\n        },\r\n        {\r\n            \"Type\": 2,\r\n            \"Value\": \"{{valid_phone}}\"\r\n        }\r\n    ],\r\n    \"Password\": \"{{valid_password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User registration with already registred user",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// pm.collectionVariables.set(\"validName\", pm.variables.get('validName'));\r",
+							"// console.log(pm.collectionVariables.get('validName'))"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200 OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check if 'UserId' exists and has a non-null value\", function () {\r",
+							"    const responseBody = pm.response.json();\r",
+							"    pm.expect(responseBody).to.have.property(\"UserId\").and.not.equal(null);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check if 'Login' exists and has a non-null value\", function () {\r",
+							"    const responseBody = pm.response.json();\r",
+							"    pm.expect(responseBody).to.have.property(\"Login\").and.not.equal(null);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Name\": \"{{valid_name}}\",\r\n    \"Age\": \"{{valid_age}}\",\r\n    \"Identifiers\": [\r\n        {\r\n            \"Type\": 1,\r\n            \"Value\": \"{{valid_mail}}\"\r\n        },\r\n        {\r\n            \"Type\": 2,\r\n            \"Value\": \"{{valid_phone}}\"\r\n        }\r\n    ],\r\n    \"Password\": \"{{valid_password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User registration (invalid email)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 422 Unprocessable Entity\", function () {\r",
+							"    pm.response.to.have.status(422);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response error equal 'Введен невалидный email'\", function () {\r",
+							"    pm.response.to.have.body(\"Введен невалидный email\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Name\": \"{{valid_name}}\",\r\n    \"Age\": \"{{valid_age}}\",\r\n    \"Identifiers\": [\r\n        {\r\n            \"Type\": 1,\r\n            \"Value\": \"{{invalid_mail}}\"\r\n        }\r\n    ],\r\n    \"Password\": \"{{valid_password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/ie",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"ie"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User registration (invalid phone)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 422 Unprocessable Entity\", function () {\r",
+							"    pm.response.to.have.status(422);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response error equal 'Введен невалидный phone'\", function () {\r",
+							"    pm.response.to.have.body(\"Введен невалидный phone\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Name\": \"{{valid_name}}\",\r\n    \"Age\": \"{{valid_age}}\",\r\n    \"Identifiers\": [\r\n        {\r\n            \"Type\": 2,\r\n            \"Value\": \"{{invalid_phone}}\"\r\n        }\r\n    ],\r\n    \"Password\": \"{{valid_password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/ip",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"ip"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User receive token on login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200 OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response have token\", function () {\r",
+							"    pm.response.to.have.body(\"Пользователь уже существует\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Login\": \"{{user_login}}\",\r\n    \"Password\": {{valid_password}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// pm.collectionVariables.set(\"validPhone\", \"validPhone\");",
+					"// pm.collectionVariables.set(\"validName\", \"validName\");"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "valid_phone",
+			"value": "+79876543210",
+			"type": "string"
+		},
+		{
+			"key": "valid_name",
+			"value": "Username Name",
+			"type": "string"
+		},
+		{
+			"key": "valid_mail",
+			"value": "username@testmail.com",
+			"type": "string"
+		},
+		{
+			"key": "valid_password",
+			"value": "пАрОль$123",
+			"type": "string"
+		},
+		{
+			"key": "valid_age",
+			"value": "123",
+			"type": "string"
+		},
+		{
+			"key": "invalid_mail",
+			"value": "user@invaliddomain",
+			"type": "string"
+		},
+		{
+			"key": "invalid_phone",
+			"value": "7987654321#invalid",
+			"type": "string"
+		},
+		{
+			"key": "base_url",
+			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "user_login",
+			"value": ""
+		},
+		{
+			"key": "new_user_login",
+			"value": ""
+		}
+	]
+}
